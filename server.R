@@ -1,18 +1,23 @@
 library(shiny)
 
-shinyServer(
-  function(input, output){
-    conversionFactor <- reactive({
-      # Fahrenheit to Celsius Conversion
-      if(as.character(input$unit) == "Degrees Fahrenheit"){
-        paste("=", (input$temperature - 32)*5/9, "Degrees Celsius")
-      }
-      # Celsius to Fahrenheit Conversion
-      else{
-        paste("=", input$temperature*9/5 + 32, "Degrees Fahrenheit")
-      }
-    })
+shinyUI(pageWithSidebar(
+  headerPanel("Celsius-Fahrenheit Temperature Converter"),
+  sidebarPanel(
+    numericInput("temperature", label = "Enter Temperature Here:", value = 0),
     
-    output$converted_temp = renderText({paste(conversionFactor())})
-  }
-)
+    radioButtons("unit", label = "Select Degree Here:", 
+                 choices = c(" Fahrenheit", " Celsius"))
+  ),
+  mainPanel(
+    h4("Converted Temperature"),
+    
+    verbatimTextOutput("converted_temp"),
+    
+    h4("Here you can change temperatures in degrees Celsius and/or Fahrenheit
+       "),
+    
+    h4("Enter the temperature to be converted and select the input degree for converting")
+    
+   
+    )
+))

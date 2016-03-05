@@ -4,47 +4,34 @@ author: Cocu23
 date:  4.3.16
 autosize: true
 
-First Slide
+Intro Slide
 ========================================================
 
-This analysis contained the following workstreams 
+This analysis contained the following  
 
-- Data Exploration and Preparation
-- Data Analysis (Finding Anomalies within Units)
-- Data Presentation (Histogramm of Anomaly Distribution based on number of units)
-
-Preview
+- Data Analysis (Conversion) from Celsius to Fahrenheit and backwards
+- Data Presentation (Showing based on number of units)
+   
+Idea
 ========================================================
 
-```{r}
-ydata<-read.csv(file = "sampledata.csv", header=T, sep=";")
-ydata[1:15, ]
-```
+The idea comes from my struggle within my vacation in the US, with the different metric system.
+   
 
-Slide With Code
+
+Slide With Conversion Code
 ========================================================
 
 ```{r,  eval=FALSE}
 
-library(AnomalyDetection)
-context("Testing edge cases")
-
-test_that("checking for errors if time series has constant value for all values", {
-    data <- rep(1,1000)
-    expect_true({AnomalyDetectionVec(data, period=14, plot=T, direction='both'); TRUE})
-
-})
-
-test_that("checking that midnight dates get H%M%S format applied", {
-    data_file <- system.file("extdata", "data.csv", package="AnomalyDetection")
-    data <- read.csv(data_file)
-    data$date <- as.POSIXct(strptime(data$date, "%Y-%m-%d %H:%M", tz = "UTC"))
-    anomalyDetectionResult <- AnomalyDetectionTs(data, max_anoms=0.2, threshold = "None", 
-                                                 direction='both', plot=FALSE, 
-                                                 only_last = "day", e_value = TRUE)
-    
-    expect_equal(length(anomalyDetectionResult$anoms$anoms), length(anomalyDetectionResult$anoms$expected_value))
-})
+if(as.character(input$unit) == "Degrees Fahrenheit"){
+        paste("=", (input$temperature - 32)*5/9, "Degrees Celsius")
+      }
+      # Celsius to Fahrenheit Conversion
+      else{
+        paste("=", input$temperature*9/5 + 32, "Degrees Fahrenheit")
+      }
+  
 ```
 
 
